@@ -1,0 +1,21 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>عداد الانتخابات</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:10px;background:#f5f5f5}
+h2,#total{text-align:center}table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}
+td,th{border:1px solid #ccc;padding:4px;text-align:center}
+button{font-size:20px;width:42px;height:42px}
+.count{font-weight:bold;font-size:18px;min-width:34px;display:inline-block}
+#reset{width:100%;margin-top:12px;height:46px;font-size:18px}
+</style></head><body>
+<h2>عداد أصوات الانتخابات</h2><div id="total">إجمالي الأصوات: <span id="t">0</span></div>
+<table><tr><th>المرشح</th><th>التحكم</th></tr><tbody><tr><td>إبراهيم حماد</td><td><button onclick="chg(0,-1)">➖</button> <span class="count" id="c0">0</span> <button onclick="chg(0,1)">➕</button></td></tr><tr><td>إبراهيم مبارك</td><td><button onclick="chg(1,-1)">➖</button> <span class="count" id="c1">0</span> <button onclick="chg(1,1)">➕</button></td></tr><tr><td>أحمد صدقي أبو العزم</td><td><button onclick="chg(2,-1)">➖</button> <span class="count" id="c2">0</span> <button onclick="chg(2,1)">➕</button></td></tr><tr><td>أحمد الطنطاوي</td><td><button onclick="chg(3,-1)">➖</button> <span class="count" id="c3">0</span> <button onclick="chg(3,1)">➕</button></td></tr><tr><td>أسامة عباس</td><td><button onclick="chg(4,-1)">➖</button> <span class="count" id="c4">0</span> <button onclick="chg(4,1)">➕</button></td></tr><tr><td>إسلام مجدي عباس</td><td><button onclick="chg(5,-1)">➖</button> <span class="count" id="c5">0</span> <button onclick="chg(5,1)">➕</button></td></tr><tr><td>إسلام ياسر الأحمداوي</td><td><button onclick="chg(6,-1)">➖</button> <span class="count" id="c6">0</span> <button onclick="chg(6,1)">➕</button></td></tr><tr><td>عبد العظيم هنداوي</td><td><button onclick="chg(7,-1)">➖</button> <span class="count" id="c7">0</span> <button onclick="chg(7,1)">➕</button></td></tr><tr><td>عمرو نبيه</td><td><button onclick="chg(8,-1)">➖</button> <span class="count" id="c8">0</span> <button onclick="chg(8,1)">➕</button></td></tr><tr><td>محمد شوقي</td><td><button onclick="chg(9,-1)">➖</button> <span class="count" id="c9">0</span> <button onclick="chg(9,1)">➕</button></td></tr><tr><td>محمد علي حنفي</td><td><button onclick="chg(10,-1)">➖</button> <span class="count" id="c10">0</span> <button onclick="chg(10,1)">➕</button></td></tr><tr><td>محمد هاني عبد الجابر</td><td><button onclick="chg(11,-1)">➖</button> <span class="count" id="c11">0</span> <button onclick="chg(11,1)">➕</button></td></tr><tr><td>محمد أبو الدهب الزارع</td><td><button onclick="chg(12,-1)">➖</button> <span class="count" id="c12">0</span> <button onclick="chg(12,1)">➕</button></td></tr><tr><td>مصطفى شريف</td><td><button onclick="chg(13,-1)">➖</button> <span class="count" id="c13">0</span> <button onclick="chg(13,1)">➕</button></td></tr></tbody></table>
+<button id="reset">تصفير النتائج</button>
+<script>
+let v=JSON.parse(localStorage.getItem("votes")||JSON.stringify(Array(14).fill(0)));
+function save(){localStorage.setItem("votes",JSON.stringify(v));document.getElementById("t").textContent=v.reduce((a,b)=>a+b,0);}
+window.chg=(i,d)=>{v[i]=Math.max(0,v[i]+d);document.getElementById("c"+i).textContent=v[i];if(navigator.vibrate)navigator.vibrate(20);save();}
+document.getElementById("reset").onclick=()=>{if(confirm("تصفير جميع النتائج؟")){v=v.map(()=>0);v.forEach((x,i)=>document.getElementById("c"+i).textContent=0);save();}}
+save();
+</script></body></html>
