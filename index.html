@@ -1,0 +1,28 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>عداد الانتخابات</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:10px;background:#f5f5f5}
+h2,#total{text-align:center}table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}
+td,th{border:1px solid #ccc;padding:4px;text-align:center}
+button{font-size:20px;width:42px;height:42px}
+.count{font-weight:bold;font-size:18px;min-width:34px;display:inline-block}
+#reset{width:100%;margin-top:12px;height:46px;font-size:18px}
+</style></head><body>
+<h2>عداد أصوات الانتخابات</h2><div id="total">إجمالي الأصوات: <span id="t">0</span></div>
+<table><tr><th>المرشح</th><th>التحكم</th></tr><tbody id="tb"></tbody></table>
+<button id="reset">تصفير النتائج</button>
+<script>
+const names=["إبراهيم حماد","إبراهيم مبارك","أحمد صدقي أبو العزم","أحمد الطنطاوي","أسامة عباس","إسلام مجدي عباس","إسلام ياسر الأحمداوي","عبد العظيم هنداوي","عمرو نبيه","محمد شوقي","محمد علي حنفي","محمد هاني عبد الجابر","محمد أبو الدهب الزارع","مصطفى شريف"];
+let v=JSON.parse(localStorage.getItem("votes")||JSON.stringify(Array(names.length).fill(0)));
+const tb=document.getElementById("tb");
+function save(){localStorage.setItem("votes",JSON.stringify(v));document.getElementById("t").textContent=v.reduce((a,b)=>a+b,0);}
+names.forEach((n,i)=>{
+ let tr=document.createElement("tr");
+ tr.innerHTML=`<td>${n}</td><td><button onclick="chg(${i},-1)">➖</button> <span class=count id=c${i}>${v[i]}</span> <button onclick="chg(${i},1)">➕</button></td>`;
+ tb.appendChild(tr);
+});
+window.chg=(i,d)=>{v[i]=Math.max(0,v[i]+d);document.getElementById("c"+i).textContent=v[i];if(navigator.vibrate)navigator.vibrate(20);save();}
+document.getElementById("reset").onclick=()=>{if(confirm("تصفير جميع النتائج؟")){v=v.map(()=>0);v.forEach((x,i)=>document.getElementById("c"+i).textContent=0);save();}}
+save();
+</script></body></html>
